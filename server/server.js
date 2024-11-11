@@ -7,3 +7,9 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+// Create a GET route
+
+app.get("/message", (req, res) => {
+  res.json({ message: "Hello from server!" });
+});
