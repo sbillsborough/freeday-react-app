@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Button } from "@mui/material";
 import "./App.css";
 
 function App() {
@@ -11,9 +12,16 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <h1>{message}</h1>
-    </div>
+    <>
+      <div className="App">
+        <h1>{message}</h1>
+      </div>
+      <div>
+        <Button variant="contained" color="primary">
+          Hello MUI
+        </Button>
+      </div>
+    </>
   );
 }
 
