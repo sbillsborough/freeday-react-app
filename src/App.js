@@ -8,7 +8,8 @@ function App() {
   useEffect(() => {
     fetch("http://localhost:8000/message")
       .then((res) => res.json())
-      .then((data) => setMessage(data.message));
+      .then((data) => setMessage(data.message))
+      .catch((err) => setMessage("Error: unable to load message"));
   }, []);
 
   return (
