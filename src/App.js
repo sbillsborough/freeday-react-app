@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
+import StartButton from "./components/StartButton.js";
 
 function App() {
   const [message, setMessage] = useState("");
@@ -11,9 +12,12 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <h1>{message}</h1>
-    </div>
+    <>
+      <div className="App">
+        <h1>{message}</h1>
+      </div>
+      <StartButton />
+    </>
   );
 }
 
