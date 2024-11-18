@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import StartButton from "./components/StartButton.js";
-import DateTimeSelector from "./components/DateTimePicker.js";
+import DateSelector from "./components/DateCalender.js";
 
 function App() {
   const [message, setMessage] = useState("");
@@ -19,7 +19,7 @@ function App() {
         <h1>{message}</h1>
       </div>
       <StartButton />
-      <DateTimeSelector />
+      <DateSelector />
     </>
   );
 }
