@@ -11,7 +11,7 @@ function DateTimeSelector() {
       <DemoContainer components={["DesktopDateTimePicker"]}>
         <DemoItem label="Responsive variant">
           <DateTimePicker
-            format="DD-MM-YYYY hh:mm a"
+            format="DD-MM-YYYY HH:mm a"
             defaultValue={dayjs(new Date())}
           />
         </DemoItem>
