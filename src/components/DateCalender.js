@@ -8,7 +8,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 function DateSelector() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DemoContainer components={["DesktopDateTimePicker"]}>
+      <DemoContainer components={["DesktopDatePicker"]}>
         <DatePicker format="DD-MM-YYYY" defaultValue={dayjs(new Date())} />
       </DemoContainer>
     </LocalizationProvider>
