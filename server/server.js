@@ -10,7 +10,7 @@ app.use(express.json());
 
 // Create a GET route
 app.get("/message", (req, res) => {
-  res.json({ message: "Hello from server!" });
+  res.json({ message: "Hello from the server!" });
 });
 
 //Start the server
