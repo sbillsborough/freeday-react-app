@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import StartButton from "./components/StartButton.jsx";
 import DateSelector from "./components/DateCalender.jsx";
+import BasicTextFields from "./components/CreateUser.jsx";
 
 function App() {
   const [message, setMessage] = useState("");
@@ -19,6 +20,7 @@ function App() {
         <h1>{message}</h1>
       </div>
       <StartButton />
+      <BasicTextFields />
       <DateSelector />
     </>
   );
