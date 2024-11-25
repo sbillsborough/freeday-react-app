@@ -1,9 +1,16 @@
 import React from "react";
 import { Button } from "@mui/material";
-import { addUserButton } from "./Events.jsx";
 
 function StartButton() {
-  return <Button variant="contained">Add User</Button>;
+  const handleClick = () => {
+    console.log("Start button clicked!");
+  };
+
+  return (
+    <Button variant="contained" onClick={handleClick}>
+      Add User
+    </Button>
+  );
 }
 
 export default StartButton;
