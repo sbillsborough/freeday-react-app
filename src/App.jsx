@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import AddUserButton from "./components/AddButton.jsx";
+import AddUserButton from "./components/AddUserButton.jsx";
 import DateSelector from "./components/DateCalender.jsx";
 import BasicTextFields from "./components/AddNameTextField.jsx";
 
