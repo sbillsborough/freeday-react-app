@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import AddUserButton from "./components/AddButton.jsx";
 import DateSelector from "./components/DateCalender.jsx";
-import BasicTextFields from "./components/CreateUser.jsx";
+import BasicTextFields from "./components/AddNameTextField.jsx";
 
 function App() {
   const [message, setMessage] = useState("");
