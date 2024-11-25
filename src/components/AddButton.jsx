@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@mui/material";
 
-function StartButton() {
+function AddUserButton() {
   const handleClick = () => {
     console.log("Start button clicked!");
   };
@@ -13,4 +13,4 @@ function StartButton() {
   );
 }
 
-export default StartButton;
+export default AddUserButton;
