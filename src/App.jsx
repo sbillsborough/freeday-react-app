@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import AddUserButton from "./components/AddUserButton.jsx";
-import DateSelector from "./components/DateCalender.jsx";
 import BasicTextFields from "./components/AddNameTextField.jsx";
+import DateSelector from "./components/DateCalender.jsx";
 
 function App() {
   const [message, setMessage] = useState("");
+  const [isTextFieldVisible, setIsTextFieldVisible] = useState(false);
 
   useEffect(() => {
     fetch("http://localhost:8000/message")
@@ -14,13 +15,17 @@ function App() {
       .catch((err) => setMessage("Error: unable to load message"));
   }, []);
 
+  const handleAddUserClick = () => {
+    setIsTextFieldVisible(true);
+  };
+
   return (
     <>
       <div className="App">
         <h1>{message}</h1>
       </div>
-      <AddUserButton />
-      <BasicTextFields />
+      <AddUserButton onAddUserClick={handleAddUserClick} />
+      {isTextFieldVisible && <BasicTextFields />}
       <DateSelector />
     </>
   );

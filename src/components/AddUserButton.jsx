@@ -1,13 +1,9 @@
 import React from "react";
 import { Button } from "@mui/material";
 
-function AddUserButton() {
-  const handleClick = () => {
-    console.log("Start button clicked!");
-  };
-
+function AddUserButton({ onAddUserClick }) {
   return (
-    <Button variant="contained" onClick={handleClick}>
+    <Button variant="contained" onClick={onAddUserClick}>
       Add User
     </Button>
   );
