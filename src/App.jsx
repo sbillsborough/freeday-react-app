@@ -3,10 +3,12 @@ import "./App.css";
 import AddUserButton from "./components/AddUserButton.jsx";
 import BasicTextFields from "./components/AddNameTextField.jsx";
 import DateSelector from "./components/DateCalender.jsx";
+import SaveUserButton from "./components/SaveUserButton.jsx";
 
 function App() {
   const [message, setMessage] = useState("");
   const [isTextFieldVisible, setIsTextFieldVisible] = useState(false);
+  const [userName, setUserName] = useState("");
 
   useEffect(() => {
     fetch("http://localhost:8000/message")
@@ -25,7 +27,11 @@ function App() {
         <h1>{message}</h1>
       </div>
       <AddUserButton onAddUserClick={handleAddUserClick} />
-      {isTextFieldVisible && <BasicTextFields />}
+      {isTextFieldVisible && (
+        <>
+          <BasicTextFields userName={userName} setUserName={setUserName} />
+        </>
+      )}
       <DateSelector />
     </>
   );

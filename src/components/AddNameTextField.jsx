@@ -1,18 +1,18 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
+// import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 
-function BasicTextFields() {
+function BasicTextFields({ userName, setUserName }) {
+  const handleChange = (e) => {
+    setUserName(e.target.value);
+  };
   return (
-    <Box
-      component="form"
-      sx={{ "& > :not(style)": { m: 1, width: "25ch" } }}
-      noValidate
-      autoComplete="off"
-    >
-      <TextField id="outlined-basic" label="First Name" variant="outlined" />
-      <TextField id="outlined-basic" label="Last Name" variant="outlined" />
-    </Box>
+    <TextField
+      label="Enter Name"
+      variant="outlined"
+      value={userName}
+      onChange={handleChange}
+    />
   );
 }
 
