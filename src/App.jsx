@@ -30,8 +30,10 @@ function App() {
       {isTextFieldVisible && (
         <>
           <BasicTextFields userName={userName} setUserName={setUserName} />
+          <SaveUserButton />
         </>
       )}
+
       <DateSelector />
     </>
   );
