@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import AddUserButton from "./components/AddUserButton.jsx";
 import BasicTextFields from "./components/AddNameTextField.jsx";
 import DateSelector from "./components/DateCalender.jsx";
-import SaveUserButton from "./components/SaveUserButton.jsx";
+import ActionButton from "./components/ActionButton.jsx";
 
 function App() {
   const [message, setMessage] = useState("");
@@ -45,11 +44,15 @@ function App() {
       <div className="App">
         <h1>{message}</h1>
       </div>
-      <AddUserButton onAddUserClick={handleAddUserClick} />
+
+      {/* Replaced AddUserButton with ActionButton */}
+      <ActionButton onClick={handleAddUserClick} label="Add User" />
+
       {isTextFieldVisible && (
         <>
           <BasicTextFields userName={userName} setUserName={setUserName} />
-          <SaveUserButton onSaveUser={handleSaveUser} />
+          {/* Replaced SaveUserButton with ActionButton */}
+          <ActionButton onClick={handleSaveUser} label="Save User" />
         </>
       )}
 
