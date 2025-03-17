@@ -1,22 +1,15 @@
 import express from "express";
-import bodyParser from "body-parser";
-import dotenv from "dotenv";
-import connectDB from "./config/db.js";
-import userRoutes from "./api/users/usersRoutes.js";
-
-// Load environment variables
-dotenv.config();
+import cors from "cors";
 
 const app = express();
 const PORT = process.env.PORT || 8000;
 
-// Middleware
-app.use(bodyParser.json());
+app.use(cors({ origin: "http://localhost:5173" })); // Allow frontend requests
+app.use(express.json());
 
-// Connect Database
-connectDB();
-
-// Routes
-app.use("/api", userRoutes);
+app.get("/message", (req, res) => {
+  console.log(req);
+  res.json({ message: "Hello from the backend!" });
+});
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
