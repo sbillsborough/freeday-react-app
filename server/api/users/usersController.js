@@ -1,7 +1,7 @@
-const User = require("./userModel");
+import User from "./userModel.js"; // Ensure the correct file path
 
 // Save a new user
-const createUser = async (req, res) => {
+export const createUser = async (req, res) => {
   try {
     const { name } = req.body;
     if (!name) {
@@ -15,5 +15,3 @@ const createUser = async (req, res) => {
     res.status(500).json({ message: "Failed to create user" });
   }
 };
-
-module.exports = { createUser };

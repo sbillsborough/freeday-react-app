@@ -1,9 +1,9 @@
-const express = require("express");
-const { createUser } = require("./usersController");
+import express from "express";
+import { createUser } from "./usersController.js"; // Ensure the correct file path
 
 const router = express.Router();
 
-// Route to create user
+// Route to create a user
 router.post("/users", createUser);
 
-module.exports = router;
+export default router;

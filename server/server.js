@@ -1,9 +1,11 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const connectDB = require("./config/db");
-const userRoutes = require("./api/users/usersRoutes");
+import express from "express";
+import bodyParser from "body-parser";
+import dotenv from "dotenv";
+import connectDB from "./config/db.js";
+import userRoutes from "./api/users/usersRoutes.js";
 
-require("dotenv").config();
+// Load environment variables
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 8000;
