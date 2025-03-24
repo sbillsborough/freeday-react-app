@@ -6,7 +6,8 @@ import ActionButton from "./components/ActionButton.jsx";
 
 function App() {
   const [message, setMessage] = useState("");
-  const [isTextFieldVisible, setIsTextFieldVisible] = useState(false);
+  const [isUserInputFieldVisible, setIsUserInputFieldVisible] = useState(false);
+
   const [userName, setUserName] = useState("");
 
   useEffect(() => {
@@ -17,7 +18,7 @@ function App() {
   }, []);
 
   const handleAddUserClick = () => {
-    setIsTextFieldVisible(true);
+    setIsUserInputFieldVisible(true);
   };
 
   const handleSaveUser = () => {
@@ -45,18 +46,15 @@ function App() {
         <h1>{message}</h1>
       </div>
 
-      {/* Replaced AddUserButton with ActionButton */}
       <ActionButton onClick={handleAddUserClick} label="Add User" />
 
-      {isTextFieldVisible && (
+      {isUserInputFieldVisible && (
         <>
           <BasicTextFields userName={userName} setUserName={setUserName} />
-          {/* Replaced SaveUserButton with ActionButton */}
+          <DateSelector />
           <ActionButton onClick={handleSaveUser} label="Save User" />
         </>
       )}
-
-      <DateSelector />
     </>
   );
 }
