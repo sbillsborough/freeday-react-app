@@ -6,9 +6,10 @@ import ActionButton from "./components/ActionButton.jsx";
 
 function App() {
   const [message, setMessage] = useState("");
-  const [isUserInputFieldVisible, setIsUserInputFieldVisible] = useState(false);
-
+  const [step, setStep] = useState(0);
   const [userName, setUserName] = useState("");
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [userData, setUserData] = useState({});
 
   useEffect(() => {
     fetch("http://localhost:8000/message")
@@ -17,26 +18,34 @@ function App() {
       .catch((err) => setMessage("Error: unable to load message"));
   }, []);
 
-  const handleAddUserClick = () => {
-    setIsUserInputFieldVisible(true);
-  };
+  const handleAddUserClick = () => setStep(1);
 
   const handleSaveUser = () => {
+    setUserData({ name: userName });
+    setStep(2);
+  };
+
+  const handleSaveDate = () => {
+    setUserData((prevData) => ({ ...prevData, date: selectedDate }));
+    setStep(3);
+  };
+
+  const handleConfirm = () => {
     fetch("http://localhost:8000/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name: userName }),
+      body: JSON.stringify(userData),
     })
       .then((res) => res.json())
       .then((data) => {
         console.log("User saved:", data);
-        alert("User saved successfully!");
+        alert("User and data saved successfully!");
       })
       .catch((err) => {
         console.error("Error saving user:", err);
-        alert("Failed to save user.");
+        alert("Failed to save data.");
       });
   };
 
@@ -46,15 +55,28 @@ function App() {
         <h1>{message}</h1>
       </div>
 
-      <ActionButton onClick={handleAddUserClick} label="Add User" />
+      {step === 0 && (
+        <ActionButton onClick={handleAddUserClick} label="Add User" />
+      )}
 
-      {isUserInputFieldVisible && (
+      {step >= 1 && (
         <>
           <BasicTextFields userName={userName} setUserName={setUserName} />
-          <DateSelector />
           <ActionButton onClick={handleSaveUser} label="Save User" />
         </>
       )}
+
+      {step >= 2 && (
+        <>
+          <DateSelector
+            selectedDate={selectedDate}
+            setSelectedDate={setSelectedDate}
+          />
+          <ActionButton onClick={handleSaveDate} label="Save Date" />
+        </>
+      )}
+
+      {step === 3 && <ActionButton onClick={handleConfirm} label="Confirm" />}
     </>
   );
 }
