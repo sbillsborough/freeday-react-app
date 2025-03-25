@@ -1,9 +1,9 @@
 import express from "express";
-import { createUser } from "./usersController.js"; // Ensure the correct file path
+import { createUser, getUsers } from "./usersController.js";
 
 const router = express.Router();
 
-// Route to create a user
-router.post("/users", createUser);
+router.post("/users", createUser); // Save user
+router.get("/users", getUsers); // Retrieve users
 
 export default router;
