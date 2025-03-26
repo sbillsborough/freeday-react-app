@@ -14,7 +14,7 @@ app.use(express.json());
 
 app.get("/message", (req, res) => {
   console.log(req);
-  res.json({ message: "Hello from the backend!" });
+  res.json({ message: "Server is running! Hello from the backend!" });
 });
 
 // Routes
