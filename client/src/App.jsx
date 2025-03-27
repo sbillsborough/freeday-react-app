@@ -39,6 +39,8 @@ function App() {
   };
 
   const handleConfirm = () => {
+    console.log("Submitting userData:", JSON.stringify(userData));
+
     fetch("http://localhost:8000/api/users", {
       method: "POST",
       headers: {
@@ -46,9 +48,22 @@ function App() {
       },
       body: JSON.stringify(userData),
     })
-      .then((res) => res.json())
-      .then(() => alert("User and dates saved successfully!"))
-      .catch(() => alert("Failed to save data."));
+      .then((res) => {
+        if (!res.ok) {
+          return res.json().then((err) => {
+            throw new Error(err.message);
+          });
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log("Server Response:", data); // Debugging
+        alert("User and dates saved successfully!");
+      })
+      .catch((error) => {
+        console.error("Failed to save data:", error.message); // Debugging
+        alert(`Failed to save data: ${error.message}`);
+      });
   };
 
   return (

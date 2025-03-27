@@ -3,16 +3,23 @@ import User from "./userModel.js";
 // Save a new user with name and date
 export const createUser = async (req, res) => {
   try {
-    const { name, date } = req.body;
-    if (!name || !date) {
-      return res.status(400).json({ message: "Name is required" });
+    const { name, dates } = req.body;
+    if (!name || !Array.isArray(dates)) {
+      return res.status(400).json({
+        message:
+          "Invalid request format. 'name' must be a string and 'dates' must be an array.",
+      });
     }
 
-    const newUser = await User.create({ name, date });
+    const newUser = new User({ name, dates });
+    await newUser.save();
+
     res.status(201).json(newUser);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Name and date are required" });
+    console.error("Error saving user:", err);
+    res
+      .status(500)
+      .json({ message: "Failed to save user", error: err.message });
   }
 };
 
