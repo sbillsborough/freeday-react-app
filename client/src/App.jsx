@@ -8,8 +8,8 @@ function App() {
   const [message, setMessage] = useState("");
   const [step, setStep] = useState(0);
   const [userName, setUserName] = useState("");
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [userData, setUserData] = useState({});
+  const [selectedDates, setSelectedDates] = useState([]);
+  const [userData, setUserData] = useState({ name: "", dates: [] });
 
   useEffect(() => {
     fetch("http://localhost:8000/message")
@@ -21,12 +21,20 @@ function App() {
   const handleAddUserClick = () => setStep(1);
 
   const handleSaveUser = () => {
-    setUserData({ name: userName });
+    setUserData((prevData) => ({ ...prevData, name: userName }));
     setStep(2);
   };
 
   const handleSaveDate = () => {
-    setUserData((prevData) => ({ ...prevData, date: selectedDate }));
+    if (selectedDates.length > 0) {
+      setUserData((prevData) => ({
+        ...prevData,
+        dates: [
+          ...prevData.dates,
+          ...selectedDates.filter((date) => !prevData.dates.includes(date)),
+        ],
+      }));
+    }
     setStep(3);
   };
 
@@ -39,7 +47,7 @@ function App() {
       body: JSON.stringify(userData),
     })
       .then((res) => res.json())
-      .then(() => alert("User and date saved successfully!"))
+      .then(() => alert("User and dates saved successfully!"))
       .catch(() => alert("Failed to save data."));
   };
 
@@ -63,10 +71,10 @@ function App() {
       {step >= 2 && (
         <>
           <DateSelector
-            selectedDate={selectedDate}
-            setSelectedDate={setSelectedDate}
+            selectedDates={selectedDates}
+            setSelectedDates={setSelectedDates}
           />
-          <ActionButton onClick={handleSaveDate} label="Save Date" />
+          <ActionButton onClick={handleSaveDate} label="Save Dates" />
         </>
       )}
 
