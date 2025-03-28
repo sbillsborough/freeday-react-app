@@ -64,6 +64,11 @@ function App() {
         console.error("Failed to save data:", error.message); // Debugging
         alert(`Failed to save data: ${error.message}`);
       });
+    setStep(4);
+  };
+
+  const handleFetchDays = () => {
+    console.log("Fetching Free Days");
   };
 
   return (
@@ -93,7 +98,11 @@ function App() {
         </>
       )}
 
-      {step === 3 && <ActionButton onClick={handleConfirm} label="Confirm" />}
+      {step >= 3 && <ActionButton onClick={handleConfirm} label="Confirm" />}
+
+      {step === 4 && (
+        <ActionButton onClick={handleFetchDays} label="Get Free Days" />
+      )}
     </>
   );
 }
