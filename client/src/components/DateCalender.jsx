@@ -21,6 +21,8 @@ function DateSelector({ selectedDates, setSelectedDates }) {
     }
   };
 
+  // filter() method will go through each date in selectedDates and create a new array with all the dates except dateToRemove. It filters out the dateToRemove and updates the state with the new list of dates.
+
   const handleRemoveDate = (dateToRemove) => {
     setSelectedDates(selectedDates.filter((date) => date !== dateToRemove));
   };
