@@ -3,6 +3,7 @@ import "./App.css";
 import BasicTextFields from "./components/AddNameTextField.jsx";
 import DateSelector from "./components/DateCalender.jsx";
 import ActionButton from "./components/ActionButton.jsx";
+import FetchDays from "./components/FetchDays.jsx";
 
 function App() {
   const [message, setMessage] = useState("");
@@ -67,10 +68,6 @@ function App() {
     setStep(4);
   };
 
-  const handleFetchDays = () => {
-    console.log("Fetching Free Days");
-  };
-
   return (
     <>
       <div className="App">
@@ -100,9 +97,7 @@ function App() {
 
       {step >= 3 && <ActionButton onClick={handleConfirm} label="Confirm" />}
 
-      {step === 4 && (
-        <ActionButton onClick={handleFetchDays} label="Get Free Days" />
-      )}
+      {step === 4 && <FetchDays />}
     </>
   );
 }
