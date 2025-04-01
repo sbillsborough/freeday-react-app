@@ -26,7 +26,7 @@ function FetchDays() {
     let dateMap = {};
     let storedUserId = localStorage.getItem("userId");
 
-    let currentUser = users.find((user) => user.id === userId);
+    let currentUser = users.find((user) => user.id === storedUserId);
 
     if (!currentUser) return;
 
