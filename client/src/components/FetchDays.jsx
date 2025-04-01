@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import ActionButton from "./ActionButton";
 
 function FetchDays() {
   const [userData, setUserData] = useState([]);
   const [matchingDates, setMatchingDates] = useState([]);
+  const [userMatches, setUserMatches] = useState([]);
 
   useEffect(() => {
     handleFetchDays();
@@ -24,6 +24,9 @@ function FetchDays() {
 
   const findMatchingDates = (users) => {
     let dateMap = {};
+    let currentUser = users.find((user) => user.id === userId);
+
+    if (!currentUser) return;
 
     // Populate dateMap with users for each date
     users.forEach((user) => {
@@ -39,6 +42,13 @@ function FetchDays() {
       .map(([date, names]) => ({ date, names }));
 
     setMatchingDates(matches);
+
+    // Find only the matches specific to the logged-in user
+    const userSpecificMatches = matches.filter((match) =>
+      match.names.includes(currentUser.name)
+    );
+
+    setUserMatches(userSpecificMatches);
   };
 
   return (
@@ -62,6 +72,25 @@ function FetchDays() {
           ))
         ) : (
           <li>No matching dates found.</li>
+        )}
+      </ul>
+
+      <h2>Your Free Days with Others</h2>
+      <ul>
+        {userMatches.length > 0 ? (
+          userMatches.map((match, index) => (
+            <li key={index}>
+              <strong>{match.date}</strong>: You have free days with{" "}
+              {match.names
+                .filter(
+                  (name) =>
+                    name !== userData.find((user) => user.id === userId)?.name
+                )
+                .join(", ")}
+            </li>
+          ))
+        ) : (
+          <li>No free days with others.</li>
         )}
       </ul>
     </div>
