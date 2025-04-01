@@ -8,6 +8,7 @@ import FetchDays from "./components/FetchDays.jsx";
 function App() {
   const [message, setMessage] = useState("");
   const [step, setStep] = useState(0);
+  const [userId, setUserId] = useState(0);
   const [userName, setUserName] = useState("");
   const [selectedDates, setSelectedDates] = useState([]);
   const [userData, setUserData] = useState({ name: "", dates: [] });
@@ -21,8 +22,12 @@ function App() {
 
   const handleAddUserClick = () => setStep(1);
 
+  // Saves a new user with a unique ID and saves it to local storage
   const handleSaveUser = () => {
-    setUserData((prevData) => ({ ...prevData, name: userName }));
+    const newUserId = uuid4();
+    setUserId(newUserId);
+    localStorage.setItem("userId", newUserId);
+    setUserData({ id: newUserId, name: userName, dates: [] });
     setStep(2);
   };
 
