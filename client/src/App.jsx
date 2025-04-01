@@ -4,6 +4,7 @@ import BasicTextFields from "./components/AddNameTextField.jsx";
 import DateSelector from "./components/DateCalender.jsx";
 import ActionButton from "./components/ActionButton.jsx";
 import FetchDays from "./components/FetchDays.jsx";
+import { v4 as uuidv4 } from "uuid";
 
 function App() {
   const [message, setMessage] = useState("");
@@ -24,7 +25,7 @@ function App() {
 
   // Saves a new user with a unique ID and saves it to local storage
   const handleSaveUser = () => {
-    const newUserId = uuid4();
+    const newUserId = uuidv4();
     setUserId(newUserId);
     localStorage.setItem("userId", newUserId);
     setUserData({ id: newUserId, name: userName, dates: [] });
