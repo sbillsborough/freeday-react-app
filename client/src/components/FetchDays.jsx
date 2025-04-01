@@ -80,7 +80,7 @@ function FetchDays() {
         {userMatches.length > 0 ? (
           userMatches.map((match, index) => (
             <li key={index}>
-              <strong>{match.date}</strong>: You have free days with{" "}
+              <strong>{match.date}</strong>: You have free days with
               {match.names
                 .filter(
                   (name) =>
