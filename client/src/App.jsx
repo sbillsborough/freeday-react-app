@@ -46,36 +46,19 @@ function App() {
   };
 
   const handleConfirm = () => {
-    setUserData((prevData) => {
-      const updatedUserData = { ...prevData };
-      console.log("Submitting userData:", JSON.stringify(userData));
-
-      fetch("http://localhost:8000/api/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
+    fetch("http://localhost:8000/api/users", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: userName, dates: selectedDates }), // Don't send `id`
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Server Response:", data);
+        localStorage.setItem("userId", data._id); // Store MongoDB _id, not UUID
+        setUserId(data._id); // Update state with correct ID
+        alert("User and dates saved successfully!");
       })
-        .then((res) => {
-          if (!res.ok) {
-            return res.json().then((err) => {
-              throw new Error(err.message);
-            });
-          }
-          return res.json();
-        })
-        .then((data) => {
-          console.log("Server Response:", data); // Debugging
-          alert("User and dates saved successfully!");
-        })
-        .catch((error) => {
-          console.error("Failed to save data:", error.message); // Debugging
-          alert(`Failed to save data: ${error.message}`);
-        });
-
-      return updatedUserData;
-    });
+      .catch((error) => console.error("Failed to save data:", error.message));
 
     setStep(4);
   };
