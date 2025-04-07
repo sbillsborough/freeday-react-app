@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from "react";
 
-function FetchDays() {
+function FetchDays({ userId }) {
   const [userData, setUserData] = useState([]);
   const [matchingDates, setMatchingDates] = useState([]);
   const [userMatches, setUserMatches] = useState([]);
-  const storedUserId = localStorage.getItem("userId");
 
   useEffect(() => {
     handleFetchDays();
   }, []);
 
   const handleFetchDays = () => {
-    console.log("Fetching Free Days");
-
     fetch("http://localhost:8000/api/users")
       .then((res) => res.json())
       .then((data) => {
@@ -26,76 +23,48 @@ function FetchDays() {
   const findMatchingDates = (users) => {
     let dateMap = {};
 
-    // Populate dateMap with users for each date
     users.forEach((user) => {
       if (!user.dates || !Array.isArray(user.dates)) return;
       user.dates.forEach((date) => {
         if (!dateMap[date]) dateMap[date] = [];
-        dateMap[date].push(user.name);
+        dateMap[date].push(user);
       });
     });
 
-    // Find all dates with more than one user
     const matches = Object.entries(dateMap)
-      .filter(([_, names]) => names.length > 1) // Keep only shared dates
-      .map(([date, names]) => ({ date, names }));
+      .filter(([_, users]) => users.length > 1)
+      .map(([date, users]) => ({
+        date,
+        users: users.map((user) => ({ id: user._id, name: user.name })),
+      }));
 
     setMatchingDates(matches);
 
-    // **Create a user-specific match list**
-    let userSpecificMatches = {};
-
-    matches.forEach(({ date, names }) => {
-      names.forEach((name) => {
-        if (!userSpecificMatches[name]) userSpecificMatches[name] = [];
-        userSpecificMatches[name].push({
-          date,
-          others: names.filter((n) => n !== name), // Exclude self
-        });
-      });
-    });
+    // Find only matches for the logged-in user
+    const userSpecificMatches = matches
+      .filter((match) => match.users.some((u) => u.id === userId))
+      .map(({ date, users }) => ({
+        date,
+        others: users.filter((u) => u.id !== userId).map((u) => u.name),
+      }));
 
     setUserMatches(userSpecificMatches);
   };
 
   return (
     <div>
-      <h2>All Users & Dates</h2>
+      <h2>Your Free Days with Others</h2>
       <ul>
-        {userData.map((user, index) => (
-          <li key={index}>
-            <strong>{user.name}</strong>: {user.dates.join(", ")}
-          </li>
-        ))}
-      </ul>
-
-      <h2>Matching Dates</h2>
-      <ul>
-        {matchingDates.length > 0 ? (
-          matchingDates.map((match, index) => (
+        {userMatches.length > 0 ? (
+          userMatches.map((match, index) => (
             <li key={index}>
-              <strong>{match.date}</strong>: {match.names.join(", ")}
+              <strong>{match.date}</strong>: You have free days with{" "}
+              {match.others.join(", ")}
             </li>
           ))
         ) : (
-          <li>No matching dates found.</li>
+          <li>No free days with others.</li>
         )}
-      </ul>
-
-      <h2>Your Free Days with Others</h2>
-      <ul>
-        {Object.entries(userMatches).map(([user, matches]) => (
-          <li key={user}>
-            <strong>{user}</strong> has free days with:
-            <ul>
-              {matches.map((match, index) => (
-                <li key={index}>
-                  <strong>{match.date}</strong>: {match.others.join(", ")}
-                </li>
-              ))}
-            </ul>
-          </li>
-        ))}
       </ul>
     </div>
   );
