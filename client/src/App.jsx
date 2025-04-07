@@ -5,23 +5,24 @@ import BasicTextFields from "./components/AddNameTextField.jsx";
 import DateSelector from "./components/DateCalender.jsx";
 import ActionButton from "./components/ActionButton.jsx";
 import FetchDays from "./components/FetchDays.jsx";
-import { v4 as uuidv4 } from "uuid";
 
 function App() {
   const [message, setMessage] = useState("");
   const [step, setStep] = useState(0);
   const [user, setUser] = useState(null);
+  const [userName, setUserName] = useState(""); // Store username
   const [selectedDates, setSelectedDates] = useState([]);
-  const [userData, setUserData] = useState({ name: "", dates: [] });
 
   useEffect(() => {
     fetch("http://localhost:8000/message")
       .then((res) => res.json())
       .then((data) => setMessage(data.message))
-      .catch((err) => setMessage("Error: unable to load message"));
+      .catch(() => setMessage("Error: unable to load message"));
   }, []);
 
   const handleConfirm = () => {
+    if (!user) return;
+
     fetch("http://localhost:8000/api/users", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -31,19 +32,16 @@ function App() {
       .then((data) => {
         console.log("Server Response:", data);
         localStorage.setItem("userId", data._id);
-        setUser((prevUser) => ({ ...prevUser, _id: data._id })); // Update user state
+        setUser((prevUser) => ({ ...prevUser, _id: data._id }));
         alert("User and dates saved successfully!");
+        setStep(4);
       })
       .catch((error) => console.error("Failed to save data:", error.message));
-
-    setStep(4);
   };
 
   return (
-    <>
-      <div className="App">
-        <h1>{message}</h1>
-      </div>
+    <div className="App">
+      <h1>{message}</h1>
 
       {!user ? (
         <UserLogin onLogin={setUser} />
@@ -55,7 +53,7 @@ function App() {
 
           {step >= 1 && (
             <>
-              <BasicTextFields userName={user.name} />
+              <BasicTextFields userName={userName} setUserName={setUserName} />
               <ActionButton onClick={() => setStep(2)} label="Save User" />
             </>
           )}
@@ -74,10 +72,10 @@ function App() {
             <ActionButton onClick={handleConfirm} label="Confirm" />
           )}
 
-          {step === 4 && <FetchDays userId={user._id} />}
+          {step === 4 && user._id && <FetchDays userId={user._id} />}
         </>
       )}
-    </>
+    </div>
   );
 }
 
