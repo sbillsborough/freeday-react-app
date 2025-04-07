@@ -3,6 +3,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import userRoutes from "./api/users/usersRoutes.js";
+import User from "./api/users/userModel.js";
+import bcrypt from "bcryptjs";
 
 dotenv.config();
 const app = express();
@@ -26,7 +28,7 @@ app.post("/api/login", async (req, res) => {
   try {
     const user = await User.findOne({ username });
 
-    if (!user || user.password !== password) {
+    if (!user || !(await bcrypt.compare(password, user.password))) {
       return res
         .status(401)
         .json({ success: false, message: "Invalid credentials" });
@@ -44,7 +46,6 @@ app.post("/api/register", async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    // Check if user already exists
     const existingUser = await User.findOne({ username });
     if (existingUser) {
       return res
@@ -52,8 +53,10 @@ app.post("/api/register", async (req, res) => {
         .json({ success: false, message: "Username already taken" });
     }
 
-    // Create new user
-    const newUser = new User({ username, password }); // In real-world apps, hash passwords!
+    // Hash the password before saving
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = new User({ username, password: hashedPassword });
     await newUser.save();
 
     res
