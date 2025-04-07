@@ -9,7 +9,7 @@ import FetchDays from "./components/FetchDays.jsx";
 function App() {
   const [message, setMessage] = useState("");
   const [step, setStep] = useState(0);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(""); // was null
   const [userName, setUserName] = useState(""); // Store username
   const [selectedDates, setSelectedDates] = useState([]);
 
