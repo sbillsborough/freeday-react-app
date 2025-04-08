@@ -28,13 +28,18 @@ app.post("/api/login", async (req, res) => {
   try {
     const user = await User.findOne({ username });
 
+    console.log("Login Attempt:", user); // Console log to debug Log user data
+
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res
         .status(401)
         .json({ success: false, message: "Invalid credentials" });
     }
 
-    res.json({ success: true, user: { _id: user._id, name: user.username } });
+    res.json({
+      success: true,
+      user: { _id: user._id, name: user.name || user.username },
+    });
   } catch (error) {
     res.status(500).json({ success: false, message: "Server error" });
   }
