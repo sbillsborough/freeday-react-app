@@ -21,7 +21,16 @@ function App() {
   }, []);
 
   const handleConfirm = () => {
-    if (!user) return;
+    console.log("Current user state:", user); // Console log for debugging
+
+    if (!user || !user.name) {
+      console.error("Error: User name is missing", user);
+      alert("Error: User name is missing");
+      return;
+    }
+
+    console.log("Submitting User:", user); // Debugging log
+    console.log("Submitting Dates:", selectedDates);
 
     fetch("http://localhost:8000/api/users", {
       method: "POST",
@@ -31,8 +40,9 @@ function App() {
       .then((res) => res.json())
       .then((data) => {
         console.log("Server Response:", data);
+
         localStorage.setItem("userId", data._id);
-        setUser((prevUser) => ({ ...prevUser, _id: data._id }));
+        setUser((prevUser) => ({ ...prevUser, _id: data._id })); // Update state
         alert("User and dates saved successfully!");
         setStep(4);
       })
@@ -54,7 +64,18 @@ function App() {
           {step >= 1 && (
             <>
               <BasicTextFields userName={userName} setUserName={setUserName} />
-              <ActionButton onClick={() => setStep(2)} label="Save User" />
+              <ActionButton
+                onClick={() => {
+                  if (!userName.trim()) {
+                    alert("Please enter a name");
+                    return;
+                  }
+                  setUser((prevUser) => ({ ...prevUser, name: userName }));
+                  console.log("Updated User:", user); // Debug log
+                  setStep(2);
+                }}
+                label="Save User"
+              />
             </>
           )}
 
