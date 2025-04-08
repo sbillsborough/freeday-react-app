@@ -46,6 +46,8 @@ app.post("/api/register", async (req, res) => {
   const { username, password } = req.body;
 
   try {
+    console.log("Register request received:", username, password); // Console log for debugging
+
     const existingUser = await User.findOne({ username });
     if (existingUser) {
       return res
@@ -56,7 +58,12 @@ app.post("/api/register", async (req, res) => {
     // Hash the password before saving
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = new User({ username, password: hashedPassword });
+    const newUser = new User({
+      username,
+      password: hashedPassword,
+      name: username,
+      dates: [],
+    });
     await newUser.save();
 
     res
