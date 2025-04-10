@@ -23,9 +23,9 @@ function App() {
   const handleConfirm = () => {
     console.log("Current user state:", user); // Console log for debugging
 
-    if (!user || !user.name) {
-      console.error("Error: User name is missing", user);
-      alert("Error: User name is missing");
+    if (!user || !user.username || !user.password) {
+      console.error("Error: User data is incomplete", user);
+      alert("Error: User data is missing. Please log in again.");
       return;
     }
 
@@ -35,11 +35,21 @@ function App() {
     fetch("http://localhost:8000/api/users", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: user.name, dates: selectedDates }),
+      body: JSON.stringify({
+        username: user.username,
+        password: user.password,
+        name: user.name,
+        dates: selectedDates,
+      }),
     })
       .then((res) => res.json())
       .then((data) => {
         console.log("Server Response:", data);
+
+        if (!data._id) {
+          alert("Failed to save user. Please try again.");
+          return;
+        }
 
         localStorage.setItem("userId", data._id);
         setUser((prevUser) => ({ ...prevUser, _id: data._id })); // Update state
