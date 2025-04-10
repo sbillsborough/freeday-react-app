@@ -22,8 +22,17 @@ function UserLogin({ onLogin }) {
         if (data.error) {
           setError(data.error);
         } else {
-          onLogin(data); // Expecting `{ _id, name }`
-          localStorage.setItem("userId", data._id);
+          console.log("Login/Register Response:", data); // Debugging log
+
+          // Ensure correct user data is stored
+          onLogin({
+            _id: data.user._id, // Store user ID
+            username: username, // Store username
+            name: data.user.name || username, // Use name from server or username as fallback
+            password: password,
+          });
+
+          localStorage.setItem("userId", data.user._id);
         }
       })
       .catch(() => setError("Server error. Please try again."));

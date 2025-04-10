@@ -23,24 +23,28 @@ function App() {
   const handleConfirm = () => {
     console.log("Current user state:", user); // Console log for debugging
 
-    if (!user || !user.username || !user.password) {
+    if (!user || !user._id || !user.name?.trim() || !user.password?.trim()) {
       console.error("Error: User data is incomplete", user);
-      alert("Error: User data is missing. Please log in again.");
+      alert(
+        `Error: User data is incomplete.\n${JSON.stringify(user, null, 2)}`
+      );
       return;
     }
 
-    console.log("Submitting User:", user); // Debugging log
+    const requestBody = {
+      username: user.username,
+      password: user.password,
+      name: user.name,
+      dates: selectedDates,
+    };
+
+    console.log("Submitting User:", JSON.stringify(user, null, 2));
     console.log("Submitting Dates:", selectedDates);
 
     fetch("http://localhost:8000/api/users", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username: user.username,
-        password: user.password,
-        name: user.name,
-        dates: selectedDates,
-      }),
+      body: JSON.stringify(requestBody),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -52,7 +56,7 @@ function App() {
         }
 
         localStorage.setItem("userId", data._id);
-        setUser((prevUser) => ({ ...prevUser, _id: data._id })); // Update state
+        setUser((prevUser) => ({ ...prevUser, _id: data._id }));
         alert("User and dates saved successfully!");
         setStep(4);
       })
@@ -74,13 +78,17 @@ function App() {
           {step >= 1 && (
             <>
               <BasicTextFields userName={userName} setUserName={setUserName} />
+
               <ActionButton
                 onClick={() => {
                   if (!userName.trim()) {
                     alert("Please enter a name");
                     return;
                   }
-                  setUser((prevUser) => ({ ...prevUser, name: userName }));
+
+                  const updatedUser = { ...user, name: userName.trim() };
+                  setUser(updatedUser);
+
                   console.log("Updated User:", user); // Debug log
                   setStep(2);
                 }}

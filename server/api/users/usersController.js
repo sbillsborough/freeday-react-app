@@ -3,15 +3,15 @@ import User from "./userModel.js";
 // Save a new user with name and date
 export const createUser = async (req, res) => {
   try {
-    const { name, dates } = req.body;
-    if (!name || !Array.isArray(dates)) {
+    const { username, password, name, dates } = req.body;
+    if (!username || !password || !name || !Array.isArray(dates)) {
       return res.status(400).json({
         message:
-          "Invalid request format. 'name' must be a string and 'dates' must be an array.",
+          "Invalid request format. 'username', 'password', and 'name' are required, and 'dates' must be an array.",
       });
     }
 
-    const newUser = new User({ name, dates });
+    const newUser = new User({ username, password, name, dates });
     await newUser.save();
 
     res.status(201).json(newUser);
