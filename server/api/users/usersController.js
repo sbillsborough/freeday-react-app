@@ -23,6 +23,29 @@ export const createUser = async (req, res) => {
   }
 };
 
+// Update an existing user's name and dates
+export const updateUser = async (req, res) => {
+  const { id } = req.params;
+  const { name, dates } = req.body;
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      { name, dates },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json(updatedUser);
+  } catch (error) {
+    console.error("Error updating user:", error);
+    res.status(500).json({ message: "Failed to update user" });
+  }
+};
+
 // Fetch all users (for debugging or display)
 export const getUsers = async (req, res) => {
   try {

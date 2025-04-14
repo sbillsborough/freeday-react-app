@@ -9,8 +9,8 @@ import FetchDays from "./components/FetchDays.jsx";
 function App() {
   const [message, setMessage] = useState("");
   const [step, setStep] = useState(0);
-  const [user, setUser] = useState(""); // was null
-  const [userName, setUserName] = useState(""); // Store username
+  const [user, setUser] = useState("");
+  const [userName, setUserName] = useState("");
   const [selectedDates, setSelectedDates] = useState([]);
 
   useEffect(() => {
@@ -32,17 +32,18 @@ function App() {
     }
 
     const requestBody = {
-      username: user.username,
-      password: user.password,
       name: user.name,
       dates: selectedDates,
     };
 
+    const url = `http://localhost:8000/api/users/${user._id}`;
+    const method = "PUT";
+
     console.log("Submitting User:", JSON.stringify(user, null, 2));
     console.log("Submitting Dates:", selectedDates);
 
-    fetch("http://localhost:8000/api/users", {
-      method: "POST",
+    fetch(url, {
+      method,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(requestBody),
     })
@@ -55,7 +56,7 @@ function App() {
           return;
         }
 
-        localStorage.setItem("userId", data._id);
+        // localStorage.setItem("userId", data._id);
         setUser((prevUser) => ({ ...prevUser, _id: data._id }));
         alert("User and dates saved successfully!");
         setStep(4);
