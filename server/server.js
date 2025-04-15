@@ -71,9 +71,11 @@ app.post("/api/register", async (req, res) => {
     });
     await newUser.save();
 
-    res
-      .status(201)
-      .json({ success: true, message: "User registered successfully" });
+    res.status(201).json({
+      success: true,
+      message: "User registered successfully",
+      user: { _id: newUser._id, name: newUser.name },
+    });
   } catch (error) {
     res.status(500).json({ success: false, message: "Server error" });
   }
