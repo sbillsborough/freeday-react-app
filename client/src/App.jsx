@@ -64,6 +64,10 @@ function App() {
       .catch((error) => console.error("Failed to save data:", error.message));
   };
 
+  const handleBack = () => {
+    if (step > 0) setStep(step - 1);
+  };
+
   return (
     <div className="App">
       <h1>{message}</h1>
@@ -72,14 +76,20 @@ function App() {
         <UserLogin onLogin={setUser} />
       ) : (
         <>
+          {step > 0 && step < 4 && (
+            <div style={{ marginBottom: "1rem" }}>
+              <p>Step {step} of 3</p>
+              <ActionButton onClick={handleBack} label="Back" />
+            </div>
+          )}
+
           {step === 0 && (
             <ActionButton onClick={() => setStep(1)} label="Add User" />
           )}
 
-          {step >= 1 && (
+          {step === 1 && (
             <>
               <BasicTextFields userName={userName} setUserName={setUserName} />
-
               <ActionButton
                 onClick={() => {
                   if (!userName.trim()) {
@@ -89,8 +99,6 @@ function App() {
 
                   const updatedUser = { ...user, name: userName.trim() };
                   setUser(updatedUser);
-
-                  console.log("Updated User:", user); // Debug log
                   setStep(2);
                 }}
                 label="Save User"
@@ -98,7 +106,7 @@ function App() {
             </>
           )}
 
-          {step >= 2 && (
+          {step === 2 && (
             <>
               <DateSelector
                 selectedDates={selectedDates}
@@ -108,11 +116,25 @@ function App() {
             </>
           )}
 
-          {step >= 3 && (
+          {step === 3 && (
             <ActionButton onClick={handleConfirm} label="Confirm" />
           )}
 
-          {step === 4 && user._id && <FetchDays userId={user._id} />}
+          {step === 4 && user._id && (
+            <>
+              <FetchDays userId={user._id} />
+              <ActionButton
+                onClick={() => {
+                  setStep(0);
+                  setUser("");
+                  setUserName("");
+                  setSelectedDates([]);
+                  localStorage.removeItem("userId");
+                }}
+                label="Start Over"
+              />
+            </>
+          )}
         </>
       )}
     </div>
