@@ -5,7 +5,7 @@ import BasicTextFields from "./components/AddNameTextField.jsx";
 import DateSelector from "./components/DateCalender.jsx";
 import ActionButton from "./components/ActionButton.jsx";
 import FetchDays from "./components/FetchDays.jsx";
-import background from "./assets/images/ocean-sunset.jpg";
+import background from "./assets/images/tropical-beach.jpg";
 
 function App() {
   const [message, setMessage] = useState("");
