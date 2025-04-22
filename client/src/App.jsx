@@ -5,6 +5,7 @@ import BasicTextFields from "./components/AddNameTextField.jsx";
 import DateSelector from "./components/DateCalender.jsx";
 import ActionButton from "./components/ActionButton.jsx";
 import FetchDays from "./components/FetchDays.jsx";
+import background from "./assets/images/ocean-sunset.jpg";
 
 function App() {
   const [message, setMessage] = useState("");
@@ -69,7 +70,7 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div className="App" style={{ backgroundImage: `url(${background})` }}>
       <h1>{message}</h1>
 
       {!user ? (
