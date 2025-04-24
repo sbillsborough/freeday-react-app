@@ -12,6 +12,10 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --white: #fff;
+  --lightblue: #add8e6;
+  --darkerblue: #3084e5;
 }
 
 a {
@@ -59,4 +63,40 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+/* User Login Styling */
+
+.user-login-wrapper {
+  margin: 0 auto;
+  width: 80%;
+  border: 2px solid red;
+}
+
+.user-login-container > form {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 80%;
+  max-width: 250px;
+}
+
+.user-login-container > form > input {
+  height: 35px;
+  text-align: left;
+  margin-bottom: 5px;
+  padding-left: 5px;
+  background: var(--lightblue);
+  border: 1px solid var(--white);
+  border-radius: 10px;
+  caret-color: var(--darkerblue);
+}
+
+.user-login-container > form > input::placeholder {
+  color: var(--white);
+}
+
+.user-login-container > form > input:focus {
+  outline: none;
+  border: 2px solid var(--darkerblue);
 }

@@ -39,8 +39,10 @@ function UserLogin({ onLogin }) {
   };
 
   return (
-    <div>
-      <h2>{isRegistering ? "Register" : "Login"}</h2>
+    <div className="user-login-container">
+      <h2 className="user-login-heading">
+        {isRegistering ? "Register" : "Login"}
+      </h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <form onSubmit={handleSubmit}>
         <input
@@ -57,7 +59,9 @@ function UserLogin({ onLogin }) {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit">{isRegistering ? "Register" : "Login"}</button>
+        <button className="user-login-heading" type="submit">
+          {isRegistering ? "Register" : "Login"}
+        </button>
       </form>
       <button onClick={() => setIsRegistering(!isRegistering)}>
         {isRegistering ? "Already have an account? Login" : "Create an account"}
