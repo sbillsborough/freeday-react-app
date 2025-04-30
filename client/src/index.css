@@ -4,18 +4,16 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  /* background-color: #242424; */
-  background-color: #b3b3b3;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 
   --white: #fff;
   --lightblue: #add8e6;
   --darkerblue: #3084e5;
+}
+
+/* General Styling */
+
+.App {
+  align-items: center;
 }
 
 a {
@@ -105,3 +103,8 @@ button:focus-visible {
 }
 
 /* Add User Page Styling */
+
+.App > button {
+  border-radius: 8px;
+  align-items: center;
+}
