@@ -79,7 +79,7 @@ function App() {
         <>
           {step > 0 && step < 4 && (
             <div style={{ marginBottom: "1rem" }}>
-              <p>Step {step} of 3</p>
+              <p className="step-text">Step {step} of 3</p>
               <ActionButton onClick={handleBack} label="Back" />
             </div>
           )}
