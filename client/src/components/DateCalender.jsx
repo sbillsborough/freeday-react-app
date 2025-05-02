@@ -29,7 +29,7 @@ function DateSelector({ selectedDates, setSelectedDates }) {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <div>
+      <>
         <DatePicker
           label="Select a date"
           format="DD-MM-YYYY"
@@ -56,7 +56,7 @@ function DateSelector({ selectedDates, setSelectedDates }) {
             </ListItem>
           ))}
         </List>
-      </div>
+      </>
     </LocalizationProvider>
   );
 }
