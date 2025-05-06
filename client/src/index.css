@@ -114,4 +114,22 @@ button:focus-visible {
   margin: 1rem;
 }
 
-/*  */
+/* Fetch Days Page Styling */
+
+.fetch-days-container > h2 {
+  margin-bottom: 10px;
+  color: blue;
+}
+
+.fetch-days-container > ul {
+  list-style-type: none;
+}
+
+span {
+  color: rgb(0, 13, 255);
+  font-weight: bold;
+}
+
+.fetch-days-container > ul > li > strong {
+  color: green;
+}
