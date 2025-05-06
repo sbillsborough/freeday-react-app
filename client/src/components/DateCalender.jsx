@@ -46,16 +46,21 @@ function DateSelector({ selectedDates, setSelectedDates }) {
         </Button>
 
         {/* Display Selected Dates */}
-        <List>
-          {selectedDates.map((date, index) => (
-            <ListItem key={index}>
-              {date}
-              <IconButton onClick={() => handleRemoveDate(date)} color="error">
-                <DeleteIcon />
-              </IconButton>
-            </ListItem>
-          ))}
-        </List>
+        <div>
+          <List className="selected-dates-list">
+            {selectedDates.map((date, index) => (
+              <ListItem key={index}>
+                {date}
+                <IconButton
+                  onClick={() => handleRemoveDate(date)}
+                  color="error"
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </ListItem>
+            ))}
+          </List>
+        </div>
       </>
     </LocalizationProvider>
   );

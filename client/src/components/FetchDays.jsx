@@ -52,14 +52,14 @@ function FetchDays({ userId }) {
   };
 
   return (
-    <div>
-      <h2>Your Free Days with Others</h2>
+    <div className="fetch-days-container">
+      <h2>Your Free Days with Others!</h2>
       <ul>
         {userMatches.length > 0 ? (
           userMatches.map((match, index) => (
             <li key={index}>
               <strong>{match.date}</strong>: You have free days with{" "}
-              {match.others.join(", ")}
+              <span>{match.others.join(", ")}</span>
             </li>
           ))
         ) : (
