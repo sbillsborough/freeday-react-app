@@ -114,6 +114,33 @@ button:focus-visible {
   margin: 1rem;
 }
 
+/* Date Calender Styling */
+/* 
+.selected-dates-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 0;
+  margin-top: 16px;
+  list-style: none;
+  max-width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+.selected-dates-list .MuiListItem-root {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #e0f7fa;
+  border-radius: 20px;
+  padding: 4px 12px;
+  margin: 4px;
+  max-width: 100%;
+  word-break: break-word;
+  flex: 0 1 auto;
+} */
+
 /* Fetch Days Page Styling */
 
 .fetch-days-container > h2 {
