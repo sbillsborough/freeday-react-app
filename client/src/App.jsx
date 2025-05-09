@@ -14,6 +14,7 @@ function App() {
   const [userName, setUserName] = useState("");
   const [selectedDates, setSelectedDates] = useState([]);
 
+  // Fetch welcome message
   useEffect(() => {
     fetch("http://localhost:8000/message")
       .then((res) => res.json())
@@ -21,9 +22,35 @@ function App() {
       .catch(() => setMessage("Error: unable to load message"));
   }, []);
 
-  const handleConfirm = () => {
-    console.log("Current user state:", user); // Console log for debugging
+  // Fetch full user data after login
+  useEffect(() => {
+    if (user && user._id) {
+      fetch(`http://localhost:8000/api/users/${user._id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (!data.name?.trim()) {
+            setStep(1); // Force to input name
+          } else {
+            const confirmUpdate = window.confirm(
+              `Welcome, ${data.name}!\nWould you like to update your display name?`
+            );
+            if (confirmUpdate) {
+              setUserName(data.name);
+              setStep(1);
+            } else {
+              setUser(data);
+              setStep(2); // Skip name edit step
+            }
+          }
+        })
+        .catch((err) => {
+          console.error("Failed to fetch user:", err);
+          alert("Could not verify user details.");
+        });
+    }
+  }, [user]);
 
+  const handleConfirm = () => {
     if (!user || !user._id || !user.name?.trim() || !user.password?.trim()) {
       console.error("Error: User data is incomplete", user);
       alert(
@@ -40,9 +67,6 @@ function App() {
     const url = `http://localhost:8000/api/users/${user._id}`;
     const method = "PUT";
 
-    console.log("Submitting User:", JSON.stringify(user, null, 2));
-    console.log("Submitting Dates:", selectedDates);
-
     fetch(url, {
       method,
       headers: { "Content-Type": "application/json" },
@@ -50,14 +74,11 @@ function App() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("Server Response:", data);
-
         if (!data._id) {
           alert("Failed to save user. Please try again.");
           return;
         }
 
-        // localStorage.setItem("userId", data._id);
         setUser((prevUser) => ({ ...prevUser, _id: data._id }));
         alert("User and dates saved successfully!");
         setStep(4);
