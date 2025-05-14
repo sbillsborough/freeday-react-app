@@ -28,20 +28,9 @@ function App() {
       fetch(`http://localhost:8000/api/users/${user._id}`)
         .then((res) => res.json())
         .then((data) => {
-          if (!data.name?.trim()) {
-            setStep(1); // Force to input name
-          } else {
-            const confirmUpdate = window.confirm(
-              `Welcome, ${data.name}!\nWould you like to update your display name?`
-            );
-            if (confirmUpdate) {
-              setUserName(data.name);
-              setStep(1);
-            } else {
-              setUser(data);
-              setStep(2); // Skip name edit step
-            }
-          }
+          setUser(data);
+          setUserName(data.name || ""); // Preload field if available
+          setStep(1); // Always go to step 1 for name decision
         })
         .catch((err) => {
           console.error("Failed to fetch user:", err);
@@ -112,19 +101,49 @@ function App() {
           {step === 1 && (
             <>
               <BasicTextFields userName={userName} setUserName={setUserName} />
-              <ActionButton
-                onClick={() => {
-                  if (!userName.trim()) {
-                    alert("Please enter a name");
-                    return;
-                  }
 
-                  const updatedUser = { ...user, name: userName.trim() };
-                  setUser(updatedUser);
-                  setStep(2);
-                }}
-                label="Save User"
-              />
+              {!user.name ? (
+                // If name does NOT exist, force user to input one
+                <ActionButton
+                  onClick={() => {
+                    if (!userName.trim()) {
+                      alert("Please enter a name");
+                      return;
+                    }
+
+                    const updatedUser = { ...user, name: userName.trim() };
+                    setUser(updatedUser);
+                    setStep(2);
+                  }}
+                  label="Save User"
+                />
+              ) : (
+                // If name exists, show both "Edit Name" and "Continue Without Editing"
+                <div
+                  style={{ display: "flex", gap: "1rem", marginTop: "1rem" }}
+                >
+                  <ActionButton
+                    onClick={() => {
+                      if (!userName.trim()) {
+                        alert("Please enter a name");
+                        return;
+                      }
+
+                      const updatedUser = { ...user, name: userName.trim() };
+                      setUser(updatedUser);
+                      setStep(2);
+                    }}
+                    label="Edit Name"
+                  />
+                  <ActionButton
+                    onClick={() => {
+                      setUserName(user.name); // Ensure state is synced
+                      setStep(2);
+                    }}
+                    label="Continue Without Editing"
+                  />
+                </div>
+              )}
             </>
           )}
 
