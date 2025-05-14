@@ -13,6 +13,7 @@ function App() {
   const [user, setUser] = useState("");
   const [userName, setUserName] = useState("");
   const [selectedDates, setSelectedDates] = useState([]);
+  const [nameConfirmed, setNameConfirmed] = useState(false);
 
   // Fetch welcome message
   useEffect(() => {
@@ -24,13 +25,14 @@ function App() {
 
   // Fetch full user data after login
   useEffect(() => {
-    if (user && user._id) {
+    if (user && user._id && step === 0) {
       fetch(`http://localhost:8000/api/users/${user._id}`)
         .then((res) => res.json())
         .then((data) => {
           setUser(data);
           setUserName(data.name || ""); // Preload field if available
-          setStep(1); // Always go to step 1 for name decision
+          setNameConfirmed(!!data.name); // True only if the name already exists
+          if (step === 0) setStep(1);
         })
         .catch((err) => {
           console.error("Failed to fetch user:", err);
@@ -102,7 +104,7 @@ function App() {
             <>
               <BasicTextFields userName={userName} setUserName={setUserName} />
 
-              {!user.name ? (
+              {!nameConfirmed ? (
                 // If name does NOT exist, force user to input one
                 <ActionButton
                   onClick={() => {
@@ -131,6 +133,7 @@ function App() {
 
                       const updatedUser = { ...user, name: userName.trim() };
                       setUser(updatedUser);
+                      setNameConfirmed(true);
                       setStep(2);
                     }}
                     label="Edit Name"
@@ -138,6 +141,7 @@ function App() {
                   <ActionButton
                     onClick={() => {
                       setUserName(user.name); // Ensure state is synced
+                      setNameConfirmed(true);
                       setStep(2);
                     }}
                     label="Continue Without Editing"
